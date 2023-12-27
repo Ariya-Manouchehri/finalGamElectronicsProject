@@ -1,16 +1,16 @@
 package ir.manouchehri.finalgamelectronicsproject.mapper;
 
 import ir.manouchehri.finalgamelectronicsproject.domain.Product;
-import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestProduct;
+import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProductDtoMapper {
-    Product RequestProductToProduct(RequestProduct requestProduct);
+    Product productDtoToProduct(ProductDto requestProduct);
 
-    RequestProduct ProductToRequestProduct(Product product);
+    ProductDto productToProductDto(Product product);
 
-    List<RequestProduct> listOfProductToListOfRequestProduct(List<Product> products);
+    List<ProductDto> listOfProductToListOfProductDto(List<Product> products);
 }

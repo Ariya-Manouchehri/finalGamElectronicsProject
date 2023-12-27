@@ -1,18 +1,17 @@
 package ir.manouchehri.finalgamelectronicsproject.service;
 
-import ir.manouchehri.finalgamelectronicsproject.domain.Product;
-import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestProduct;
+import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
 
 import java.util.List;
 
 public interface ProductService {
-    RequestProduct addProduct(RequestProduct requestProduct);
+    ProductDto addProduct(ProductDto requestProduct);
 
-    RequestProduct updateProduct(Long id,RequestProduct requestProduct);
+    ProductDto updateProduct(Long id, ProductDto requestProduct);
 
     void deleteProduct(Long id);
 
-    RequestProduct getProduct(Long id);
+    ProductDto getProduct(Long id);
 
-    List<RequestProduct> getAllProduct();
+    List<ProductDto> getAllProducts();
 }

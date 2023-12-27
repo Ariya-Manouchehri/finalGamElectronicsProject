@@ -1,7 +1,7 @@
 package ir.manouchehri.finalgamelectronicsproject.serviceImpl;
 
 import ir.manouchehri.finalgamelectronicsproject.domain.Product;
-import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestProduct;
+import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
 import ir.manouchehri.finalgamelectronicsproject.mapper.ProductDtoMapper;
 import ir.manouchehri.finalgamelectronicsproject.repository.ProductRepository;
 import ir.manouchehri.finalgamelectronicsproject.service.ProductService;
@@ -23,17 +23,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public RequestProduct addProduct(RequestProduct requestProduct) {
-        Product product = productRepository.save(productDtoMapper.RequestProductToProduct(requestProduct));
-        return productDtoMapper.ProductToRequestProduct(product);
+    public ProductDto addProduct(ProductDto requestProduct) {
+        Product product = productRepository.save(productDtoMapper.productDtoToProduct(requestProduct));
+        return productDtoMapper.productToProductDto(product);
     }
 
     @Override
-    public RequestProduct updateProduct(Long id, RequestProduct requestProduct) {
+    public ProductDto updateProduct(Long id, ProductDto requestProduct) {
         Optional<Product> product = productRepository.findById(id);
         product.get().setName(requestProduct.getName());
         product.get().setPrice(requestProduct.getPrice());
-        return productDtoMapper.ProductToRequestProduct(productRepository.save(product.get()));
+        return productDtoMapper.productToProductDto(productRepository.save(product.get()));
     }
 
     @Override
@@ -42,12 +42,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public RequestProduct getProduct(Long id) {
-        return productDtoMapper.ProductToRequestProduct(productRepository.findById(id).get());
+    public ProductDto getProduct(Long id) {
+        return productDtoMapper.productToProductDto(productRepository.findById(id).get());
     }
 
     @Override
-    public List<RequestProduct> getAllProduct() {
-        return productDtoMapper.listOfProductToListOfRequestProduct(productRepository.findAll());
+    public List<ProductDto> getAllProducts() {
+        return productDtoMapper.listOfProductToListOfProductDto(productRepository.findAll());
     }
 }

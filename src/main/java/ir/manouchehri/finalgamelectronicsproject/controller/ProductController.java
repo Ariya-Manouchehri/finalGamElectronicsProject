@@ -1,7 +1,6 @@
 package ir.manouchehri.finalgamelectronicsproject.controller;
 
-import ir.manouchehri.finalgamelectronicsproject.domain.Product;
-import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestProduct;
+import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
 import ir.manouchehri.finalgamelectronicsproject.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +21,12 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    public RequestProduct addProduct(@Valid @RequestBody RequestProduct requestProduct){
+    public ProductDto addProduct(@Valid @RequestBody ProductDto requestProduct){
         return productService.addProduct(requestProduct);
     }
     
     @PutMapping("/updateProduct/{id}")
-    public RequestProduct updateProduct(@PathVariable Long id,@Valid @RequestBody RequestProduct requestProduct){
+    public ProductDto updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto requestProduct){
         return productService.updateProduct(id,requestProduct);
     }
 
@@ -37,12 +36,12 @@ public class ProductController {
     }
 
     @GetMapping("/getProduct")
-    public RequestProduct getProduct(@RequestParam Long id){
+    public ProductDto getProduct(@RequestParam Long id){
         return productService.getProduct(id);
     }
 
     @GetMapping("/getAllProduct")
-    public List<RequestProduct> getProduct(){
-        return productService.getAllProduct();
+    public List<ProductDto> getProduct(){
+        return productService.getAllProducts();
     }
 }
