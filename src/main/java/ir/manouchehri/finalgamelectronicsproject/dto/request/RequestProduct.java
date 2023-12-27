@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestProduct {
 
-    @Pattern(regexp = "\\d{5}\\s\\w")
+    //@Pattern(regexp = "\\d{5}-\\w")
     @NotNull
     private String name;
 
