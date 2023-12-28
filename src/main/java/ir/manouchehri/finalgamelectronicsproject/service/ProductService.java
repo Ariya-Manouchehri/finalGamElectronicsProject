@@ -5,9 +5,9 @@ import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
 import java.util.List;
 
 public interface ProductService {
-    ProductDto addProduct(ProductDto requestProduct);
+    ProductDto addProduct(ProductDto productDto);
 
-    ProductDto updateProduct(Long id, ProductDto requestProduct);
+    ProductDto updateProduct(Long id, ProductDto productDto);
 
     void deleteProduct(Long id);
 

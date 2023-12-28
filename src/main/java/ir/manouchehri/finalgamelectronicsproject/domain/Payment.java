@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "payment_tbl")
-public class Payment extends BaseEntity {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

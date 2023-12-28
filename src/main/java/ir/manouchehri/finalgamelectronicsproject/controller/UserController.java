@@ -21,27 +21,27 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public UserDto addProduct(@Valid @RequestBody UserDto userDto) {
+    public UserDto addUser(@Valid @RequestBody UserDto userDto) {
         return userService.addUser(userDto);
     }
 
     @PutMapping("/updateUser/{id}")
-    public UserDto updateProduct(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+    public UserDto updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
         return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
 
     @GetMapping("/getUser")
-    public UserDto getProduct(@RequestParam Long id) {
+    public UserDto getUser(@RequestParam Long id) {
         return userService.getUser(id);
     }
 
     @GetMapping("/getAllUsers")
-    public List<UserDto> getProduct() {
+    public List<UserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 }
