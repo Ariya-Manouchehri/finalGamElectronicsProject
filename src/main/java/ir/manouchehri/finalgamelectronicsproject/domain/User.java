@@ -21,10 +21,10 @@ public class User extends BaseEntity{
     private Long id;
 
     @Column(name = "mobile_phone", unique = true)
-    private Long mobilePhone;
+    private String mobilePhone;
 
     @Column(name = "password")
-    private Long password;
+    private String password;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;

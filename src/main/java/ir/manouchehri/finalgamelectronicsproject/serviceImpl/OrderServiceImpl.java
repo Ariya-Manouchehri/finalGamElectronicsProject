@@ -38,17 +38,28 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setProducts(products);
+        Double totalPrice = 0d;
+        for (Product item : products) {
+            totalPrice += item.getPrice();
+        }
+        order.setTotalPrice(totalPrice);
         return orderDtoMapper.orderToOrderDto(orderRepository.save(order));
     }
 
     @Override
     public ResponseOrderDto updateOrder(Long id, RequestOrderDto requestOrderDto) {
+        Optional<Order> order = orderRepository.findById(id);
         List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
         User user = userRepository.getUser(requestOrderDto.getUserId());
-        Order order = new Order();
-        order.setUser(user);
-        order.setProducts(products);
-        return orderDtoMapper.orderToOrderDto(orderRepository.save(order));
+        ;
+        order.get().setUser(user);
+        order.get().setProducts(products);
+        Double totalPrice = 0d;
+        for (Product item : products) {
+            totalPrice += item.getPrice();
+        }
+        order.get().setTotalPrice(totalPrice);
+        return orderDtoMapper.orderToOrderDto(orderRepository.save(order.get()));
     }
 
     @Override
