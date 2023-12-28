@@ -20,7 +20,7 @@ public class User extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "mobile_phone", unique = true)
+    @Column(name = "mobile_phone")
     private String mobilePhone;
 
     @Column(name = "password")

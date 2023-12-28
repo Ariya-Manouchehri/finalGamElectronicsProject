@@ -20,7 +20,7 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     @Query(nativeQuery = true, value = "select * from order_tbl where id = (select order_id from order_product_tbl where product_id = :id)")
     List<Order> findOrdersByProductId(@Param("id") Long id);
 
-    @Query("update Order set Order.pay = 'Yes' where Order.id = :id")
+    @Query(nativeQuery = true ,value = "update order_tbl set pay = 'Yes' where id = :id")
     void submitPayOrder(@Param("id") Long id);
 
     @Query("select or from Order or where or.pay = 'No'")

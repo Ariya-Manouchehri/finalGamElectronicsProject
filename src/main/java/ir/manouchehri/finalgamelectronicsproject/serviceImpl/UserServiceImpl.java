@@ -2,6 +2,10 @@ package ir.manouchehri.finalgamelectronicsproject.serviceImpl;
 
 import ir.manouchehri.finalgamelectronicsproject.domain.User;
 import ir.manouchehri.finalgamelectronicsproject.dto.UserDto;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.AddUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.DeleteUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.FindUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.UpdateUserException;
 import ir.manouchehri.finalgamelectronicsproject.mapper.UserDtoMapper;
 import ir.manouchehri.finalgamelectronicsproject.repository.UserRepository;
 import ir.manouchehri.finalgamelectronicsproject.service.UserService;
@@ -24,26 +28,50 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto addUser(UserDto userDto) {
-        User user = userRepository.save(userDtoMapper.userDtoToUser(userDto));
-        return userDtoMapper.userToUserDto(user);
+        try {
+            User user = userRepository.save(userDtoMapper.userDtoToUser(userDto));
+            return userDtoMapper.userToUserDto(user);
+        } catch (Exception e) {
+            throw new AddUserException();
+        }
     }
 
     @Override
     public UserDto updateUser(Long id, UserDto userDto) {
-        Optional<User> user = userRepository.findById(id);
-        user.get().setMobilePhone(userDto.getMobilePhone());
-        user.get().setPassword(userDto.getPassword());
-        return userDtoMapper.userToUserDto(userRepository.save(user.get()));
+        try {
+            Optional<User> user = userRepository.findById(id);
+            user.get().setMobilePhone(userDto.getMobilePhone());
+            user.get().setPassword(userDto.getPassword());
+            return userDtoMapper.userToUserDto(userRepository.save(user.get()));
+        } catch (Exception e) {
+            throw new UpdateUserException();
+        }
     }
 
     @Override
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        try {
+            User user = userRepository.getUser(id);
+            if (user == null) {
+                throw new DeleteUserException();
+            }
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new DeleteUserException();
+        }
     }
 
     @Override
     public UserDto getUser(Long id) {
-        return userDtoMapper.userToUserDto(userRepository.getUser(id));
+        try {
+            User user = userRepository.getUser(id);
+            if (user == null) {
+                throw new FindUserException();
+            }
+            return userDtoMapper.userToUserDto(user);
+        } catch (Exception e) {
+            throw new FindUserException();
+        }
     }
 
     @Override

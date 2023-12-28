@@ -1,6 +1,8 @@
 package ir.manouchehri.finalgamelectronicsproject.controller;
 
 import ir.manouchehri.finalgamelectronicsproject.dto.UserDto;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.AddUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.UpdateUserException;
 import ir.manouchehri.finalgamelectronicsproject.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
