@@ -30,7 +30,7 @@ public class Order extends BaseEntity {
     @JoinTable(name = "order_product_tbl", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
 
-    @ManyToOne
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
+    @Column(name = "pay")
+    @Enumerated(EnumType.STRING)
+    private Pay pay;
 }

@@ -1,11 +1,14 @@
 package ir.manouchehri.finalgamelectronicsproject.serviceImpl;
 
 import ir.manouchehri.finalgamelectronicsproject.domain.Order;
-import ir.manouchehri.finalgamelectronicsproject.dto.OrderDto;
+import ir.manouchehri.finalgamelectronicsproject.domain.Product;
+import ir.manouchehri.finalgamelectronicsproject.domain.User;
+import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestOrderDto;
+import ir.manouchehri.finalgamelectronicsproject.dto.response.ResponseOrderDto;
 import ir.manouchehri.finalgamelectronicsproject.mapper.OrderDtoMapper;
-import ir.manouchehri.finalgamelectronicsproject.mapper.ProductDtoMapper;
-import ir.manouchehri.finalgamelectronicsproject.mapper.UserDtoMapper;
 import ir.manouchehri.finalgamelectronicsproject.repository.OrderRepository;
+import ir.manouchehri.finalgamelectronicsproject.repository.ProductRepository;
+import ir.manouchehri.finalgamelectronicsproject.repository.UserRepository;
 import ir.manouchehri.finalgamelectronicsproject.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,32 +19,36 @@ import java.util.Optional;
 @Service
 public class OrderServiceImpl implements OrderService {
     OrderRepository orderRepository;
+    UserRepository userRepository;
+    ProductRepository productRepository;
     OrderDtoMapper orderDtoMapper;
-    UserDtoMapper userDtoMapper;
-    ProductDtoMapper productDtoMapper;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, OrderDtoMapper orderDtoMapper, UserDtoMapper userDtoMapper, ProductDtoMapper productDtoMapper) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository, OrderDtoMapper orderDtoMapper) {
         this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
+        this.productRepository = productRepository;
         this.orderDtoMapper = orderDtoMapper;
-        this.userDtoMapper = userDtoMapper;
-        this.productDtoMapper = productDtoMapper;
     }
 
     @Override
-    public OrderDto addOrder(OrderDto orderDto) {
-        Order order = orderRepository.save(orderDtoMapper.orderDtoToOrder(orderDto));
-        return orderDtoMapper.orderToOrderDto(order);
+    public ResponseOrderDto addOrder(RequestOrderDto requestOrderDto) {
+        List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
+        User user = userRepository.getUser(requestOrderDto.getUserId());
+        Order order = new Order();
+        order.setUser(user);
+        order.setProducts(products);
+        return orderDtoMapper.orderToOrderDto(orderRepository.save(order));
     }
 
     @Override
-    public OrderDto updateOrder(Long id, OrderDto orderDto) {
-        Optional<Order> order = orderRepository.findById(id);
-        order.get().setTotalPrice(orderDto.getTotalPrice());
-        order.get().setProducts(productDtoMapper.listOfProductDtoToListOfProduct(orderDto.getProductsDto()));
-        order.get().setUser(userDtoMapper.userDtoToUser(orderDto.getUserDto()));
-        orderRepository.save(order.get());
-        return orderDtoMapper.orderToOrderDto(order.get());
+    public ResponseOrderDto updateOrder(Long id, RequestOrderDto requestOrderDto) {
+        List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
+        User user = userRepository.getUser(requestOrderDto.getUserId());
+        Order order = new Order();
+        order.setUser(user);
+        order.setProducts(products);
+        return orderDtoMapper.orderToOrderDto(orderRepository.save(order));
     }
 
     @Override
@@ -50,12 +57,37 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto getOrder(Long id) {
+    public ResponseOrderDto getOrder(Long id) {
         return orderDtoMapper.orderToOrderDto(orderRepository.findById(id).get());
     }
 
     @Override
-    public List<OrderDto> getAllOrders() {
+    public List<ResponseOrderDto> getAllOrders() {
         return orderDtoMapper.listOfOrderToListOfOrderDto(orderRepository.findAll());
+    }
+
+    @Override
+    public List<ResponseOrderDto> findOrdersByUserId(Long id) {
+        return orderDtoMapper.listOfOrderToListOfOrderDto(orderRepository.findOrdersByUserId(id));
+    }
+
+    @Override
+    public List<ResponseOrderDto> findOrdersByProductId(Long id) {
+        return orderDtoMapper.listOfOrderToListOfOrderDto(orderRepository.findOrdersByProductId(id));
+    }
+
+    @Override
+    public void submitPayOrder(Long id) {
+        orderRepository.submitPayOrder(id);
+    }
+
+    @Override
+    public List<ResponseOrderDto> ordersNotPayYet() {
+        return orderDtoMapper.listOfOrderToListOfOrderDto(orderRepository.ordersNotPayYet());
+    }
+
+    @Override
+    public List<ResponseOrderDto> ordersPay() {
+        return orderDtoMapper.listOfOrderToListOfOrderDto(orderRepository.ordersPay());
     }
 }

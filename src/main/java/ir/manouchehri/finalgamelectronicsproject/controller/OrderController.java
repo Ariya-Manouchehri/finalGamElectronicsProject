@@ -1,9 +1,8 @@
 package ir.manouchehri.finalgamelectronicsproject.controller;
 
-import ir.manouchehri.finalgamelectronicsproject.dto.OrderDto;
-import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
+import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestOrderDto;
+import ir.manouchehri.finalgamelectronicsproject.dto.response.ResponseOrderDto;
 import ir.manouchehri.finalgamelectronicsproject.service.OrderService;
-import ir.manouchehri.finalgamelectronicsproject.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,27 +22,53 @@ public class OrderController {
     }
 
     @PostMapping("/addOrder")
-    public OrderDto addOrder(@Valid @RequestBody OrderDto orderDto){
-        return orderService.addOrder(orderDto);
+    public ResponseOrderDto addOrder(@Valid @RequestBody RequestOrderDto requestOrderDto) {
+        return orderService.addOrder(requestOrderDto);
     }
-    
+
     @PutMapping("/updateOrder/{id}")
-    public OrderDto updateOrder(@PathVariable Long id, @Valid @RequestBody OrderDto orderDto){
-        return orderService.updateOrder(id,orderDto);
+    public ResponseOrderDto updateOrder(@PathVariable Long id, @Valid @RequestBody RequestOrderDto requestOrderDto) {
+        return orderService.updateOrder(id, requestOrderDto);
     }
 
     @DeleteMapping("/deleteProduct/{id}")
-    public void deleteProduct(@PathVariable Long id){
+    public void deleteProduct(@PathVariable Long id) {
         orderService.deleteOrder(id);
     }
 
     @GetMapping("/getOrder")
-    public OrderDto getOrder(@RequestParam Long id){
+    public ResponseOrderDto getOrder(@RequestParam Long id) {
         return orderService.getOrder(id);
     }
 
     @GetMapping("/getAllOrder")
-    public List<OrderDto> getAllOrder(){
+    public List<ResponseOrderDto> getAllOrder() {
         return orderService.getAllOrders();
     }
+
+    @GetMapping("/findOrdersByUserId")
+    public List<ResponseOrderDto> findOrdersByUserId(@RequestParam Long id) {
+        return orderService.findOrdersByUserId(id);
+    }
+
+    @GetMapping("/findOrdersByProductId")
+    public List<ResponseOrderDto> findOrdersByProductId(@RequestParam Long id) {
+        return orderService.findOrdersByProductId(id);
+    }
+
+    @PostMapping("/submitPayOrder/{id}")
+    public void submitPayOrder(@PathVariable Long id) {
+        orderService.submitPayOrder(id);
+    }
+
+    @GetMapping("/ordersNotPayYet")
+    public List<ResponseOrderDto> ordersNotPayYet() {
+        return orderService.ordersNotPayYet();
+    }
+
+    @GetMapping("/ordersPay")
+    public List<ResponseOrderDto> ordersPay() {
+        return orderService.ordersPay();
+    }
+
 }

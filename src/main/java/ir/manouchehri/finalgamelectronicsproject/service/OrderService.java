@@ -1,17 +1,28 @@
 package ir.manouchehri.finalgamelectronicsproject.service;
 
-import ir.manouchehri.finalgamelectronicsproject.dto.OrderDto;
+import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestOrderDto;
+import ir.manouchehri.finalgamelectronicsproject.dto.response.ResponseOrderDto;
 
 import java.util.List;
 
 public interface OrderService {
-    OrderDto addOrder(OrderDto orderDto);
+    ResponseOrderDto addOrder(RequestOrderDto requestOrderDto);
 
-    OrderDto updateOrder(Long id, OrderDto orderDto);
+    ResponseOrderDto updateOrder(Long id, RequestOrderDto requestOrderDto);
 
     void deleteOrder(Long id);
 
-    OrderDto getOrder(Long id);
+    ResponseOrderDto getOrder(Long id);
 
-    List<OrderDto> getAllOrders();
+    List<ResponseOrderDto> getAllOrders();
+
+    List<ResponseOrderDto> findOrdersByUserId(Long id);
+
+    List<ResponseOrderDto> findOrdersByProductId(Long id);
+
+    void submitPayOrder(Long id);
+
+    List<ResponseOrderDto> ordersNotPayYet();
+
+    List<ResponseOrderDto> ordersPay();
 }
