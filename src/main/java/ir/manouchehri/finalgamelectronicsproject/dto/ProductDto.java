@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDto {
 
-    //@Pattern(regexp = "\\d{5}-\\w")
+    //@Pattern(regexp = "\\d{5}-\\w$")
     @NotNull
     private String name;
 

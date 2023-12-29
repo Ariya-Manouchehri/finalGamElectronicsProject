@@ -9,8 +9,6 @@ import java.util.List;
 @NoArgsConstructor
 public class RequestOrderDto {
 
-    private Double totalPrice;
-
     private Long userId;
 
     private List<Long> productsId;

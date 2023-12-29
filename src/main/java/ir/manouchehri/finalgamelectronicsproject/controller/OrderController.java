@@ -31,8 +31,8 @@ public class OrderController {
         return orderService.updateOrder(id, requestOrderDto);
     }
 
-    @DeleteMapping("/deleteProduct/{id}")
-    public void deleteProduct(@PathVariable Long id) {
+    @DeleteMapping("/deleteOrder/{id}")
+    public void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
     }
 
@@ -56,8 +56,8 @@ public class OrderController {
         return orderService.findOrdersByProductId(id);
     }
 
-    @PostMapping("/submitPayOrder/{id}")
-    public void submitPayOrder(@PathVariable Long id) {
+    @PostMapping("/submitPayOrder")
+    public void submitPayOrder(@RequestParam Long id) {
         orderService.submitPayOrder(id);
     }
 

@@ -5,6 +5,7 @@ import ir.manouchehri.finalgamelectronicsproject.domain.Product;
 import ir.manouchehri.finalgamelectronicsproject.domain.User;
 import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestOrderDto;
 import ir.manouchehri.finalgamelectronicsproject.dto.response.ResponseOrderDto;
+import ir.manouchehri.finalgamelectronicsproject.enums.Pay;
 import ir.manouchehri.finalgamelectronicsproject.mapper.OrderDtoMapper;
 import ir.manouchehri.finalgamelectronicsproject.repository.OrderRepository;
 import ir.manouchehri.finalgamelectronicsproject.repository.ProductRepository;
@@ -43,6 +44,7 @@ public class OrderServiceImpl implements OrderService {
             totalPrice += item.getPrice();
         }
         order.setTotalPrice(totalPrice);
+        order.setPay(Pay.No);
         return orderDtoMapper.orderToOrderDto(orderRepository.save(order));
     }
 
@@ -51,7 +53,6 @@ public class OrderServiceImpl implements OrderService {
         Optional<Order> order = orderRepository.findById(id);
         List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
         User user = userRepository.getUser(requestOrderDto.getUserId());
-        ;
         order.get().setUser(user);
         order.get().setProducts(products);
         Double totalPrice = 0d;
@@ -59,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
             totalPrice += item.getPrice();
         }
         order.get().setTotalPrice(totalPrice);
+        order.get().setPay(Pay.No);
         return orderDtoMapper.orderToOrderDto(orderRepository.save(order.get()));
     }
 
@@ -89,7 +91,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void submitPayOrder(Long id) {
-        orderRepository.submitPayOrder(id);
+        Optional<Order> order = orderRepository.findById(id);
+        order.get().setPay(Pay.Yes);
+        orderRepository.save(order.get());
     }
 
     @Override
