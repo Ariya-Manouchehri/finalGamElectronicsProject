@@ -1,4 +1,4 @@
-package ir.manouchehri.finalgamelectronicsproject.exceptions;
+package ir.manouchehri.finalgamelectronicsproject.exceptions.UserException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

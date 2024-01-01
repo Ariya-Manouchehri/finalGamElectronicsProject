@@ -1,4 +1,4 @@
-package ir.manouchehri.finalgamelectronicsproject.exceptions;
+package ir.manouchehri.finalgamelectronicsproject.exceptions.UserException;
 
 public class FindUserException extends RuntimeException {
 

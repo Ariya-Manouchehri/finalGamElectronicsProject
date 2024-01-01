@@ -2,10 +2,10 @@ package ir.manouchehri.finalgamelectronicsproject.serviceImpl;
 
 import ir.manouchehri.finalgamelectronicsproject.domain.User;
 import ir.manouchehri.finalgamelectronicsproject.dto.UserDto;
-import ir.manouchehri.finalgamelectronicsproject.exceptions.AddUserException;
-import ir.manouchehri.finalgamelectronicsproject.exceptions.DeleteUserException;
-import ir.manouchehri.finalgamelectronicsproject.exceptions.FindUserException;
-import ir.manouchehri.finalgamelectronicsproject.exceptions.UpdateUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.UserException.AddUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.UserException.DeleteUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.UserException.FindUserException;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.UserException.UpdateUserException;
 import ir.manouchehri.finalgamelectronicsproject.mapper.UserDtoMapper;
 import ir.manouchehri.finalgamelectronicsproject.repository.UserRepository;
 import ir.manouchehri.finalgamelectronicsproject.service.UserService;
