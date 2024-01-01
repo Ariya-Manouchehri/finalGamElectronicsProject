@@ -6,6 +6,7 @@ import ir.manouchehri.finalgamelectronicsproject.domain.User;
 import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestOrderDto;
 import ir.manouchehri.finalgamelectronicsproject.dto.response.ResponseOrderDto;
 import ir.manouchehri.finalgamelectronicsproject.enums.Pay;
+import ir.manouchehri.finalgamelectronicsproject.exceptions.OrderException.*;
 import ir.manouchehri.finalgamelectronicsproject.mapper.OrderDtoMapper;
 import ir.manouchehri.finalgamelectronicsproject.repository.OrderRepository;
 import ir.manouchehri.finalgamelectronicsproject.repository.ProductRepository;
@@ -34,44 +35,82 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseOrderDto addOrder(RequestOrderDto requestOrderDto) {
-        List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
-        User user = userRepository.getUser(requestOrderDto.getUserId());
-        Order order = new Order();
-        order.setUser(user);
-        order.setProducts(products);
-        Double totalPrice = 0d;
-        for (Product item : products) {
-            totalPrice += item.getPrice();
+        try {
+            List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
+            if (products.isEmpty()) {
+                throw new AddOrderException();
+            }
+            User user = userRepository.getUser(requestOrderDto.getUserId());
+            if (user == null) {
+                throw new AddOrderException();
+            }
+            Order order = new Order();
+            order.setUser(user);
+            order.setProducts(products);
+            Double totalPrice = 0d;
+            for (Product item : products) {
+                totalPrice += item.getPrice();
+            }
+            order.setTotalPrice(totalPrice);
+            order.setPay(Pay.No);
+            return orderDtoMapper.orderToOrderDto(orderRepository.save(order));
+        } catch (Exception e) {
+            throw new AddOrderException();
         }
-        order.setTotalPrice(totalPrice);
-        order.setPay(Pay.No);
-        return orderDtoMapper.orderToOrderDto(orderRepository.save(order));
+
     }
 
     @Override
     public ResponseOrderDto updateOrder(Long id, RequestOrderDto requestOrderDto) {
-        Optional<Order> order = orderRepository.findById(id);
-        List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
-        User user = userRepository.getUser(requestOrderDto.getUserId());
-        order.get().setUser(user);
-        order.get().setProducts(products);
-        Double totalPrice = 0d;
-        for (Product item : products) {
-            totalPrice += item.getPrice();
+        try {
+            Optional<Order> order = orderRepository.findById(id);
+            List<Product> products = productRepository.findAllById(requestOrderDto.getProductsId());
+            if (products.isEmpty()) {
+                throw new UpdateOrderException();
+            }
+            User user = userRepository.getUser(requestOrderDto.getUserId());
+            if (user == null) {
+                throw new UpdateOrderException();
+            }
+            order.get().setUser(user);
+            order.get().setProducts(products);
+            Double totalPrice = 0d;
+            for (Product item : products) {
+                totalPrice += item.getPrice();
+            }
+            order.get().setTotalPrice(totalPrice);
+            order.get().setPay(Pay.No);
+            return orderDtoMapper.orderToOrderDto(orderRepository.save(order.get()));
+        } catch (Exception e) {
+            throw new UpdateOrderException();
         }
-        order.get().setTotalPrice(totalPrice);
-        order.get().setPay(Pay.No);
-        return orderDtoMapper.orderToOrderDto(orderRepository.save(order.get()));
     }
 
     @Override
     public void deleteOrder(Long id) {
-        orderRepository.deleteById(id);
+        try {
+            Optional<Order> order = orderRepository.findById(id);
+            if (order.isEmpty()) {
+                throw new DeleteOrderException();
+            }
+            orderRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new DeleteOrderException();
+        }
+
     }
 
     @Override
     public ResponseOrderDto getOrder(Long id) {
-        return orderDtoMapper.orderToOrderDto(orderRepository.findById(id).get());
+        try {
+            Optional<Order> order = orderRepository.findById(id);
+            if (order.isEmpty()) {
+                throw new FindOrderException();
+            }
+            return orderDtoMapper.orderToOrderDto(order.get());
+        } catch (Exception e) {
+            throw new FindOrderException();
+        }
     }
 
     @Override
@@ -81,12 +120,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<ResponseOrderDto> findOrdersByUserId(Long id) {
+        try {
         return orderDtoMapper.listOfOrderToListOfOrderDto(orderRepository.findOrdersByUserId(id));
+        }catch (Exception e){
+            throw new FindOrderByUserIdException();
+        }
     }
 
     @Override
     public List<ResponseOrderDto> findOrdersByProductId(Long id) {
+        try {
         return orderDtoMapper.listOfOrderToListOfOrderDto(orderRepository.findOrdersByProductId(id));
+        }catch (Exception e){
+            throw new FindOrderByProductIdException();
+        }
     }
 
     @Override

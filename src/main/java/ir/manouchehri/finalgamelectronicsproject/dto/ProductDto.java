@@ -1,6 +1,7 @@
 package ir.manouchehri.finalgamelectronicsproject.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDto {
 
-    //@Pattern(regexp = "\\d{5}-\\w$")
+    @Pattern(regexp = "\\d{5}-\\w+")
     @NotNull
     private String name;
 

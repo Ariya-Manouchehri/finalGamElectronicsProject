@@ -1,21 +1,17 @@
 package ir.manouchehri.finalgamelectronicsproject.serviceImpl;
 
-import ir.manouchehri.finalgamelectronicsproject.domain.Order;
 import ir.manouchehri.finalgamelectronicsproject.dto.request.RequestOrderDto;
 import ir.manouchehri.finalgamelectronicsproject.dto.response.ResponseOrderDto;
-import ir.manouchehri.finalgamelectronicsproject.enums.Pay;
 import ir.manouchehri.finalgamelectronicsproject.repository.OrderRepository;
-import ir.manouchehri.finalgamelectronicsproject.repository.ProductRepository;
-import ir.manouchehri.finalgamelectronicsproject.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class OrderServiceImplTest {
@@ -57,34 +53,11 @@ class OrderServiceImplTest {
     void deleteOrder() {
         int sizeOrder = orderRepository.findAll().size();
         orderService.deleteOrder(1L);
-        assertEquals(orderRepository.findAll().size(), sizeOrder -1);
+        assertEquals(orderRepository.findAll().size(), sizeOrder - 1);
     }
 
-//    @Test
-//    void getOrder() {
-//    }
-//
-//    @Test
-//    void getAllOrders() {
-//    }
-//
-//    @Test
-//    void findOrdersByUserId() {
-//    }
-//
-//    @Test
-//    void findOrdersByProductId() {
-//    }
-//
-//    @Test
-//    void submitPayOrder() {
-//    }
-//
-//    @Test
-//    void ordersNotPayYet() {
-//    }
-//
-//    @Test
-//    void ordersPay() {
-//    }
+    @Test
+    void getOrder() {
+        assertEquals(orderService.getOrder(5L),"سفارش مورد نظر یافت نشد");
+    }
 }
