@@ -1,19 +1,17 @@
 package ir.manouchehri.finalgamelectronicsproject.serviceImpl;
 
 import ir.manouchehri.finalgamelectronicsproject.domain.User;
-import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
 import ir.manouchehri.finalgamelectronicsproject.dto.UserDto;
 import ir.manouchehri.finalgamelectronicsproject.repository.UserRepository;
-import ir.manouchehri.finalgamelectronicsproject.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -29,15 +27,14 @@ class UserServiceImplTest {
         input.setPassword("123456");
         input.setMobilePhone("0990026232");
 
-        User output =  new User();
-
+        User output = new User();
         output.setId(1L);
         output.setPassword("123456");
         output.setMobilePhone("0990026232");
 
         Mockito.when(userRepository.save(input)).thenReturn(output);
 
-        Assertions.assertEquals(userRepository.save(input), output);
+        Assertions.assertEquals(userService.addUser());
     }
 
     @Test
@@ -45,7 +42,7 @@ class UserServiceImplTest {
         UserDto userDto = new UserDto();
         userDto.setMobilePhone("09547415254");
         userDto.setPassword("ABCDE");
-        UserDto userDtoResult = userService.updateUser(1L,userDto);
+        UserDto userDtoResult = userService.updateUser(1L, userDto);
         assertNotNull(userDtoResult);
     }
 
