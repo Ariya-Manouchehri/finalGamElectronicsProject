@@ -4,7 +4,6 @@ import ir.manouchehri.finalgamelectronicsproject.dto.ProductDto;
 import ir.manouchehri.finalgamelectronicsproject.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,6 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    @PreAuthorize("hasRole('client-manager')")
     public ProductDto addProduct(@Valid @RequestBody ProductDto requestProduct){
         return productService.addProduct(requestProduct);
     }
